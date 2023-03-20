@@ -1,4 +1,4 @@
-﻿primetype,group,item,expcontrol,target,prime,expected
+﻿primetype,group,item,type,target,prime,expected
 morph,A,1,experimental,redness,reddish,f
 morph,B,1,control,redness,kingdom,f
 morph,B,2,experimental,unset,reset,f
