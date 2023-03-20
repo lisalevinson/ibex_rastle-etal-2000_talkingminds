@@ -100,6 +100,7 @@ Template( "rastle_stimuli.csv" ,
     .log( "Condition" , row.condition)  // Append condition (tr. v op. v fi.) to each result line
     .log( "Expected"  , row.expected )  // Append expectped (f vs j) to each result line
     .log( "PrimeType", row.primetype ) // Append prime type (rel. vs unr.) to each result line
+    .log( "ExpType", row.type ) // Append condition type (experimental vs control vs filler) to each result line
 )
 
 // Send the results
