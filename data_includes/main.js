@@ -8,6 +8,35 @@ Sequence( "setup", "instructions" , "practice" , randomize("experiment") , "send
     // This .log command will apply to all trials
 //    .log( "ID" , GetURLParameter("id") ) // Append the "ID" URL parameter to each result line
 
+function modifyRunningOrder(ro) {
+
+    var new_ro = [];
+    item_count=0;
+    for (var i in ro) {
+      var item = ro[i];
+      // fill in the relevant experimental condition names on the next line
+      if (item[0].type.startsWith("experiment")) {
+          item_count++;
+          new_ro.push(item);
+        // first number after item count is how many items between breaks. second is total-items - 1
+          if (item_count%51===0 & item_count<301){
+         // value here should be total_items - items_per_block (to trigger message that last block is coming up)
+              if (item_count===255){
+                  text="End of block. Only 1 block left!";
+                  }
+              else {
+        // first number is the total number of blocks. second number is number of items per block
+                  text="End of block. "+(6-(Math.floor(item_count/51)))+" blocks left.";
+              }ro[i].push(new DynamicElement("Message", 
+                                { html: "<p>30-second break - stretch and look away from the screen briefly if needed.</p>", transfer: 30000 }));
+          }
+        } else {
+        new_ro.push(item);
+        }
+    }
+    return new_ro;
+  }
+
 // Welcome screen and logging user's ID
 newTrial("setup",
      // Automatically print all Text elements, centered
