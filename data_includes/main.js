@@ -146,11 +146,11 @@ Template( "rastle_stimuli.csv" ,
         ,
         newKey("answerTarget", "FJ").log().wait()   // Proceed upon press on F or J (log it)
         ,
-        // get difference between presentation and key press
-        getVar("RT").set(v=>Date.now()-v)
-        ,
         getText("target").remove()
         // End of trial, move to next one
+        ,
+        // get difference between presentation and key press
+        getVar("RT").set(v=>Date.now()-v)
     )
     .log( "Group"     , row.group)      // Append group (A vs B) to each result line
     .log( "Expected"  , row.expected )  // Append expectped (f vs j) to each result line
