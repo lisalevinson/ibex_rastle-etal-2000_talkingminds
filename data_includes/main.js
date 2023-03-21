@@ -93,8 +93,6 @@ newTrial( "instructions" ,
     // We will print all Text elements, horizontally centered
     defaultText.center().print()
     ,
-    newText("Welcome!")
-    ,
     newText("In this experiment you are asked to decide whether the letter strings (appearing at the center of the screen) form real English words.")
     ,
     newText("To do this, press F if what you see is a word, or J if it is not a word.")
@@ -187,6 +185,7 @@ Template( "rastle_stimuli.csv" ,
     .log( "PrimeType", row.primetype ) // Append prime type (rel. vs unr.) to each result line
     .log( "ExpType", row.type ) // Append condition type (experimental vs control vs filler) to each result line
     .log( "RT", getVar("RT"))
+    .log("SOA", "72")
 )
 
 // Send the results
