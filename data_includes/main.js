@@ -48,6 +48,7 @@ newTrial("setup",
         .set(getDropDown("inputEnglish") )
 )
 .log("partID", getVar("partID"))
+.log("English", getVar("English"))
 
 // This is run at the beginning of each trial
 Header(
@@ -156,7 +157,7 @@ Template( "rastle_stimuli.csv" ,
     .log( "Expected"  , row.expected )  // Append expectped (f vs j) to each result line
     .log( "PrimeType", row.primetype ) // Append prime type (rel. vs unr.) to each result line
     .log( "ExpType", row.type ) // Append condition type (experimental vs control vs filler) to each result line
-    .log("RT", getVar("RT"))
+    .log( "RT", getVar("RT"))
 )
 
 // Send the results
