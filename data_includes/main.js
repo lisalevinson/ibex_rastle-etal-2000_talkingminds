@@ -47,7 +47,7 @@ newTrial("setup",
         .global()
         .set(getDropDown("inputEnglish") )
 )
-.log("partID", getVar("partID"))
+//.log("partID", getVar("partID"))
 .log("English", getVar("English"))
 
 // This is run at the beginning of each trial
