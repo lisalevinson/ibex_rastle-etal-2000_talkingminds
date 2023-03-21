@@ -2,14 +2,64 @@ PennController.ResetPrefix(null) // Shorten command names (keep this line here))
 
 // Start with welcome screen, then present test trials in a random order,
 // and show the final screen after sending the results
-Sequence( "welcome" , "practice" , randomize("test") , "send" , "final" )
+Sequence( "setup", "instructions" , "practice" , randomize("experiment") , "send" , "final" )
 
-Header( /* void */ )
+//Header( /* void */ )
     // This .log command will apply to all trials
-    .log( "ID" , GetURLParameter("id") ) // Append the "ID" URL parameter to each result line
+//    .log( "ID" , GetURLParameter("id") ) // Append the "ID" URL parameter to each result line
 
 // Welcome screen and logging user's ID
-newTrial( "welcome" ,
+newTrial("setup",
+     // Automatically print all Text elements, centered
+    defaultText.left().print()
+    ,
+    newText("Hi!")
+    ,
+    newText("To get started, we'll collect some basic information so that we can assign you credit and compare results across English language background groups.")
+    ,
+    newText("Enter your uniqname (without the @umich.edu):")
+    ,
+    // ID input
+    newTextInput("inputID", "")
+  //     .center()
+     //   .css("margin","1em")    // Add a 1em margin around this element
+        .print()
+    ,
+    newText("Was English a primary or dominant language of your environment for most of your first ten years?")
+    ,
+    // English input
+    newDropDown("inputEnglish" , "")
+    .add( "yes" , "no" )
+    .print()
+    ,
+    newButton("Start")
+        .center()
+        .print()
+        // Only validate a click on Start when inputID has been filled
+        .wait( getTextInput("inputID").testNot.text("") )
+    ,
+    // Store the text from inputID into the Var element
+    newVar("partID")
+        .global()
+        .set(getTextInput("inputID") )
+    ,
+    newVar("English")
+        .global()
+        .set(getDropDown("inputEnglish") )
+)
+.log("partID", getVar("partID"))
+
+// This is run at the beginning of each trial
+Header(
+    // Declare a global Var element "ID" in which we will store the participant's ID
+    newVar("partID").global()    
+)
+.log( "partid" , getVar("partID") ) // Add the ID to all trials' results lines
+
+
+
+// instructions
+newTrial( "instructions" ,
     // We will print all Text elements, horizontally centered
     defaultText.center().print()
     ,
@@ -41,9 +91,9 @@ newTrial("practice" ,
     newTimer("maskTimer", 500),                       
     getText("mask").remove()
     ,
-    // Prime, shown on screen for 42ms
+    // Prime, shown on screen for 72ms
     newText("prime","flower"),
-    newTimer("primeTimer", 42),
+    newTimer("primeTimer", 72),
     getText("prime").remove()
     ,
     // Target, shown on screen until F or J is pressed
@@ -71,7 +121,7 @@ newTrial("practice" ,
 
 // Executing experiment from list.csv table, where participants are divided into two groups (A vs B)
 Template( "rastle_stimuli.csv" , 
-    row => newTrial( "test" ,   
+    row => newTrial( "experiment" ,   
         // Display all Text elements centered on the page, and log their display time code
         defaultText.center().print("center at 50vw","middle at 50vh").log()
         ,
@@ -88,10 +138,16 @@ Template( "rastle_stimuli.csv" ,
         newTimer("primeTimer", 42),
         getText("prime").remove()
         ,
+        // capture time for when target is displayed
+        newVar("RT").global().set(()=>Date.now())
+        ,
         // Target, shown on screen until F or J is pressed
         newText("target",row.target)
         ,
         newKey("answerTarget", "FJ").log().wait()   // Proceed upon press on F or J (log it)
+        ,
+        // get difference between presentation and key press
+        getVar("RT").set(v=>Date.now()-v)
         ,
         getText("target").remove()
         // End of trial, move to next one
@@ -100,6 +156,7 @@ Template( "rastle_stimuli.csv" ,
     .log( "Expected"  , row.expected )  // Append expectped (f vs j) to each result line
     .log( "PrimeType", row.primetype ) // Append prime type (rel. vs unr.) to each result line
     .log( "ExpType", row.type ) // Append condition type (experimental vs control vs filler) to each result line
+    .log("RT", getVar("RT"))
 )
 
 // Send the results
