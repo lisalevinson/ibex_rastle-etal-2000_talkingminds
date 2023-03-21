@@ -1,4 +1,5 @@
 PennController.ResetPrefix(null) // Shorten command names (keep this line here))
+//DebugOff()
 
 // Start with welcome screen, then present test trials in a random order,
 // and show the final screen after sending the results
