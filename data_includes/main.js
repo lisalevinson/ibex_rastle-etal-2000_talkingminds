@@ -39,8 +39,8 @@ function modifyRunningOrder(ro) {
 
 // Welcome screen and logging user's ID
 newTrial("setup",
-     // Automatically print all Text elements, centered
-    defaultText.left().print()
+     // Automatically print all Text elements
+    defaultText.print()
     ,
     newText("Hi!")
     ,
